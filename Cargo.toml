@@ -1,0 +1,64 @@
+[package]
+name = "leptos-multiple-apps"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+members = ["app1", "app2"]
+
+[dependencies]
+app1 = { path = "app1" }
+app2 = { path = "app2" }
+
+leptos.workspace = true
+leptos_meta.workspace = true
+leptos_router.workspace = true
+
+axum = { workspace = true, optional = true }
+tokio = { version = "1.25.0", optional = true }
+
+[workspace.dependencies]
+anyhow = "1"
+console_error_panic_hook = "0.1"
+console_log = "1"
+log = "0.4.19"
+leptos = { version = "0.5.0-rc3" }
+leptos_meta = { version = "0.5.0-rc3" }
+leptos_router = { version = "0.5.0-rc3" }
+wasm-bindgen = "0.2.87"
+
+axum = "0.6.4"
+leptos_axum = { version = "0.5.0-rc3" }
+tower-http = { version = "0.4", features = ["fs"] }
+
+[features]
+server = [
+    "leptos/ssr",
+    "leptos_meta/ssr",
+    "leptos_router/ssr",
+    "leptos/tracing",
+    "app1/server",
+    "app2/server",
+    "dep:axum",
+    "dep:tokio",
+]
+
+[[workspace.metadata.leptos]]
+name = "app1"
+bin-package = "leptos-multiple-apps"
+lib-package = "app1"
+site-root = "target/site/app1"
+bin-features = ["server"]
+lib-features = ["client"]
+site-addr = "127.0.0.1:3000"
+reload-port = 3101
+
+[[workspace.metadata.leptos]]
+name = "app2"
+bin-package = "leptos-multiple-apps"
+lib-package = "app2"
+site-root = "target/site/app2"
+bin-features = ["server"]
+lib-features = ["client"]
+site-addr = "127.0.0.1:3001"
+reload-port = 3101

@@ -1,0 +1,25 @@
+[package]
+name = "app2"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+client = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
+server = ["dep:axum", "dep:leptos_axum", "dep:tower-http"]
+
+[dependencies]
+anyhow.workspace = true
+console_error_panic_hook.workspace = true
+console_log.workspace = true
+log.workspace = true
+leptos.workspace = true
+leptos_meta.workspace = true
+leptos_router.workspace = true
+wasm-bindgen.workspace = true
+
+axum = { workspace = true, optional = true }
+leptos_axum = { workspace = true, optional = true }
+tower-http = { workspace = true, optional = true }
